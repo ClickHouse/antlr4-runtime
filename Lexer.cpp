@@ -166,7 +166,7 @@ Token* Lexer::emit() {
 Token* Lexer::emitEOF() {
   size_t cpos = getCharPositionInLine();
   size_t line = getLine();
-  emit(_factory->create({ this, _input }, EOF, "", Token::DEFAULT_CHANNEL, _input->index(), _input->index() - 1, line, cpos));
+  emit(_factory->create({ this, _input }, EOF, "<EOF>", Token::DEFAULT_CHANNEL, _input->index(), _input->index() - 1, line, cpos));
   return token.get();
 }
 

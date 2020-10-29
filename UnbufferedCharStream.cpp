@@ -13,7 +13,7 @@ using namespace antlrcpp;
 using namespace antlr4;
 using namespace antlr4::misc;
 
-UnbufferedCharStream::UnbufferedCharStream(std::wistream &input) : _input(input) {
+UnbufferedCharStream::UnbufferedCharStream(std::wistream &input, size_t size_) : _input(input), _size(size_) {
   InitializeInstanceFields();
 
   // The vector's size is what used to be n in Java code.
@@ -75,7 +75,9 @@ size_t UnbufferedCharStream::fill(size_t n) {
 
 char32_t UnbufferedCharStream::nextChar()  {
   wchar_t result = 0;
-  _input >> result;
+  _input.get(result);
+  if (_input.eof())
+    result = 0xFFFF;
   return result;
 }
 
@@ -105,7 +107,7 @@ size_t UnbufferedCharStream::LA(ssize_t i) {
     return EOF;
   }
 
-  return _data[static_cast<size_t>(index)];
+    return _data[static_cast<size_t>(index)];
 }
 
 ssize_t UnbufferedCharStream::mark() {
@@ -166,7 +168,7 @@ void UnbufferedCharStream::seek(size_t index) {
 }
 
 size_t UnbufferedCharStream::size() {
-  throw UnsupportedOperationException("Unbuffered stream cannot know its size");
+  return _size;
 }
 
 std::string UnbufferedCharStream::getSourceName() const {
@@ -178,8 +180,8 @@ std::string UnbufferedCharStream::getSourceName() const {
 }
 
 std::string UnbufferedCharStream::getText(const misc::Interval &interval) {
-  if (interval.a < 0 || interval.b >= interval.a - 1) {
-    throw IllegalArgumentException("invalid interval");
+  if (interval.b < 0 || interval.b < interval.a) {
+    throw IllegalArgumentException("invalid interval: " + interval.toString());
   }
 
   size_t bufferStartIndex = getBufferStartIndex();

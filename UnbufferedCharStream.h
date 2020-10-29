@@ -18,7 +18,7 @@ namespace antlr4 {
     /// The name or source of this char stream.
     std::string name;
 
-    UnbufferedCharStream(std::wistream &input);
+    UnbufferedCharStream(std::wistream &input, size_t size);
 
     virtual void consume() override;
     virtual size_t LA(ssize_t i) override;
@@ -46,6 +46,7 @@ namespace antlr4 {
     virtual size_t size() override;
     virtual std::string getSourceName() const override;
     virtual std::string getText(const misc::Interval &interval) override;
+    virtual std::string toString() const override { return {}; }
 
   protected:
     /// A moving window buffer of the data being scanned. While there's a marker,
@@ -67,6 +68,7 @@ namespace antlr4 {
     /// out of buffered characters.
     /// </summary>
     size_t _p;
+    size_t _size;
 
     /// <summary>
     /// Count up with <seealso cref="#mark mark()"/> and down with

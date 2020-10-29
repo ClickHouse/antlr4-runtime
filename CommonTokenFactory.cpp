@@ -16,7 +16,7 @@ const Ref<TokenFactory<CommonToken>> CommonTokenFactory::DEFAULT = std::make_sha
 CommonTokenFactory::CommonTokenFactory(bool copyText_) : copyText(copyText_) {
 }
 
-CommonTokenFactory::CommonTokenFactory() : CommonTokenFactory(false) {
+CommonTokenFactory::CommonTokenFactory() : CommonTokenFactory(true) {
 }
 
 std::unique_ptr<CommonToken> CommonTokenFactory::create(std::pair<TokenSource*, CharStream*> source, size_t type,
@@ -25,7 +25,7 @@ std::unique_ptr<CommonToken> CommonTokenFactory::create(std::pair<TokenSource*, 
   std::unique_ptr<CommonToken> t(new CommonToken(source, type, channel, start, stop));
   t->setLine(line);
   t->setCharPositionInLine(charPositionInLine);
-  if (text != "") {
+  if (!text.empty()) {
     t->setText(text);
   } else if (copyText && source.second != nullptr) {
     t->setText(source.second->getText(misc::Interval(start, stop)));
