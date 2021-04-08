@@ -14,6 +14,7 @@ namespace antlr4 {
   public:
     LexerNoViableAltException(Lexer *lexer, CharStream *input, size_t startIndex,
                               atn::ATNConfigSet *deadEndConfigs);
+    virtual ~LexerNoViableAltException() override;
 
     virtual size_t getStartIndex();
     virtual atn::ATNConfigSet* getDeadEndConfigs();

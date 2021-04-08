@@ -36,6 +36,9 @@ ListTokenSource::ListTokenSource(std::vector<std::unique_ptr<Token>> tokens_, co
   }
 }
 
+ListTokenSource::~ListTokenSource() {
+}
+
 size_t ListTokenSource::getCharPositionInLine() {
   if (i < tokens.size()) {
     return tokens[i]->getCharPositionInLine();

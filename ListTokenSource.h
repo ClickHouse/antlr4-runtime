@@ -51,6 +51,7 @@ namespace antlr4 {
     /// <exception cref="NullPointerException"> if {@code tokens} is {@code null} </exception>
     ListTokenSource(std::vector<std::unique_ptr<Token>> tokens);
     ListTokenSource(const ListTokenSource& other) = delete;
+    virtual ~ListTokenSource() override;
 
     ListTokenSource& operator = (const ListTokenSource& other) = delete;
 
