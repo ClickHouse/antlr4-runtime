@@ -17,6 +17,9 @@ LexerNoViableAltException::LexerNoViableAltException(Lexer *lexer, CharStream *i
   : RecognitionException(lexer, input, nullptr, nullptr), _startIndex(startIndex), _deadEndConfigs(deadEndConfigs) {
 }
 
+LexerNoViableAltException::~LexerNoViableAltException() {
+}
+
 size_t LexerNoViableAltException::getStartIndex() {
   return _startIndex;
 }
